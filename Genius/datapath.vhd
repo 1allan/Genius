@@ -13,8 +13,25 @@ ENTITY datapath IS PORT (
 
 ARCHITECTURE arch_dp OF datapath IS BEGIN
 
-    SIGNAL signal_clkHz, signal_clk05Hz, signal_clk1Hz, signal_clk2Hz, signal_clk3Hz: std_logic;
-    SIGNAL signal_nbtnb: std_logic_vector(3 DOWNTO 0);
+    SIGNAL 
+        signal_clkHz, 
+        signal_clk05Hz, 
+        signal_clk1Hz, 
+        signal_clk2Hz, 
+        signal_clk3Hz,
+        signal_counterUser_enable: std_logic;
+    
+    SIGNAL 
+        signal_nbtnb, 
+        sinal_Time, 
+        signal_Round, 
+        signal_SEQFPGA, 
+        signal_SEQ1FPGA, 
+        signal_SEQ2FPGA, 
+        signal_SEQ3FPGA, 
+        signal_SEQ4FPGA,
+        signal_SEQUSER: std_logic_vector(3 DOWNTO 0);
+    
     SIGNAL signal_setup: std_logic_vector(7 DOWNTO 0);
 
     COMPONENT registrador8 IS PORT (
@@ -23,28 +40,108 @@ ARCHITECTURE arch_dp OF datapath IS BEGIN
         q: OUT std_logic_vector(7 DOWNTO 0)
     );
     END COMPONENT;
-
+        
     COMPONENT buttonSync IS PORT (
-            KEY0, KEY1, KEY2, KEY3, CLK: in std_logic;
-            BTN0, BTN1, BTN2, BTN3: out std_logic
+        KEY0, KEY1, KEY2, KEY3, CLK: in std_logic;
+        BTN0, BTN1, BTN2, BTN3: out std_logic
     );
     END COMPONENT;
-
+        
     COMPONENT divClock IS PORT ( 
         reset: IN std_logic;
         clk_50: IN std_logic;
         clk05Hz, clk1Hz, clk2Hz, clk3Hz: OUT std_logic
     );
     END COMPONENT;
-
+        
     COMPONENT multiplexador IS PORT (
         A, B, C, D: IN std_logic_vector(3 DOWNTO 0);
         S: IN std_logic_vector(1 DOWNTO 0);
         F: OUT std_logic_vector(3 DOWNTO 0)
     );
     END COMPONENT;
+                    
+    COMPONENT contador IS PORT (
+        data: IN std_logic_vector(3 DOWNTO 0);
+        clock, reset, enable: IN std_logic;
+        tc: OUT std_logic;
+        contagem: OUT std_logic_vector(3 DOWNTO 0)
+    );
+    END COMPONENT;
+
+    COMPONENT seq1 IS PORT(
+        address: IN std_logic_vector(3 DOWNTO 0);
+        outp: OUT std_logic_vector(3 DOWNTO 0)
+    );
+    END COMPONENT;
 
 BEGIN
+
+    signal_counterUser_enable <= (OR signal_nbtn) AND e2;
+    counter_user: contador PORT MAP (
+        signal_Round,
+        clk_50,
+        r2,
+        signal_counterUser_enable,
+        end_FPGA,
+        signal_SEQUSER
+    );
+
+    seq_mux: multiplexador PORT MAP (
+        signal_SEQ1FPGA,
+        signal_SEQ2FPGA,
+        signal_SEQ3FPGA,
+        signal_SEQ4FPGA,
+        setup(5 DOWNTO 4),
+        signal_SEQFPGA
+    );
+
+    sequencia_1: seq1 PORT MAP (
+        signal_SEQFPGA,
+        signal_SEQ1FPGA,
+    );
+
+    sequencia_2: seq2 PORT MAP (
+        signal_SEQFPGA,
+        signal_SEQ2FPGA,
+    );
+
+    sequencia_3: seq3 PORT MAP (
+        signal_SEQFPGA,
+        signal_SEQ3FPGA,
+    );
+
+    sequencia_4: seq4 PORT MAP (
+        signal_SEQFPGA,
+        signal_SEQ4FPGA,
+    );
+
+    counter_FPGA: contador PORT MAP (
+        signal_Round,
+        signal_clkHZ,
+        r2,
+        e3,
+        end_FPGA,
+        signal_SEQFPGA
+    );
+
+    counter_round: contador PORT MAP (
+        signal_setup(3 DOWNTO 0),
+        clk_50,
+        r1,
+        e4,
+        win,
+        signal_Round
+    );
+
+    counter_time: contador PORT MAP (
+        "1010",
+        signal_clk1Hz,
+        r2,
+        e2,
+        end_Time,
+        signal_Time
+    );
 
     FSM_clock: divClock PORT MAP (
         r1,

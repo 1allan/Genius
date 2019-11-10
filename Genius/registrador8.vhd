@@ -12,7 +12,7 @@ ARCHITECTURE arch_reg8 OF registrador8 IS
 BEGIN
     PROCESS (clk, d, rst)
     BEGIN
-        IF rst = '0' THEN
+        IF rst = '0' OR en = '0' THEN
             q <= "0000";
         ELSIF (clk'EVENT AND clk = '1') THEN
             q <= d;
