@@ -9,50 +9,52 @@ ENTITY Genius IS PORT (
     HEX0, HEX1, HEX2, HEX3, HEX4, HEX5: OUT std_logic_vector(6 DOWNTO 0)
 );
 
-ARCHITECTURE arch_Genius OF Genius IS 
+ARCHITECTURE arch_Genius OF Genius IS
+    
+    SIGNAL 
+        signal_r1,
+        signal_r2,
+        signal_e1, 
+        signal_e2, 
+        signal_e3, 
+        signal_e4, 
+        signal_sel, 
+        signal_end_FPGA, 
+        signal_end_User, 
+        signal_end_Time, 
+        signal_win, 
+        signal_match: std_logic;
 
-SIGNAL 
-    signal_r1,
-    signal_r2,
-    signal_e1, 
-    signal_e2, 
-    signal_e3, 
-    signal_e4, 
-    signal_sel, 
-    signal_end_FPGA, 
-    signal_end_User, 
-    signal_end_Time, 
-    signal_win, 
-    signal_match: std_logic;
+    SIGNAL 
+        out_ldr0,
+        out_ldr1: std_logic_vector(3 DOWNTO 0);
 
-SIGNAL 
-    out_ldr0,
-    out_ldr1: std_logic_vector(3 DOWNTO 0);
+    SIGNAL 
+        out_h0, 
+        out_h1, 
+        out_h2, 
+        out_h3, 
+        out_h4, 
+        out_h5: std_logic_vector(6 DOWNTO 0);
 
-SIGNAL 
-    out_h0, 
-    out_h1, 
-    out_h2, 
-    out_h3, 
-    out_h4, 
-    out_h5: std_logic_vector(6 DOWNTO 0);
+    COMPONENT datapath IS PORT (
+        k: IN std_logic_vector(3 DOWNTO 0);
+        s: IN std_logic_vector(7 DOWNTO 0);
+        clock: IN std_logic;
+        ldr0, ldr1: OUT std_logic_vector(3 downto 0); 
+        h0, h1, h2, h3, h4, h5: OUT std_logic_vector(6 downto 0); 
+        r1, r2, e1, e2, e3, e4, sel: IN std_logic;
+        end_FPGA, end_User, end_Time, win, match: OUT std_logic
+    );
+    END COMPONENT;
 
-COMPONENT datapath IS PORT (
-    k: IN std_logic_vector(3 DOWNTO 0);
-    s: IN std_logic_vector(7 DOWNTO 0);
-    clock: IN std_logic;
-    ldr0, ldr1: OUT std_logic_vector(3 downto 0); 
-    h0, h1, h2, h3, h4, h5: OUT std_logic_vector(6 downto 0); 
-    r1, r2, e1, e2, e3, e4, sel: IN std_logic;
-    end_FPGA, end_User, end_Time, win, match: OUT std_logic
-);
-
-COMPONENT control IS PORT (
-    s: std_logic_vector(1 DOWNTO 0);
-    clock: IN std_logic;
-    end_FPGA, end_User, end_Time, win, match: IN std_logic
-    clock, r1, r2, e1, e2, e3, e4, sel: OUT std_logic;
-);
+    COMPONENT control IS PORT (
+        s: std_logic_vector(1 DOWNTO 0);
+        clock: IN std_logic;
+        end_FPGA, end_User, end_Time, win, match: IN std_logic
+        clock, r1, r2, e1, e2, e3, e4, sel: OUT std_logic
+    );
+    END COMPONENT;
 
 BEGIN
     a: datapath PORT MAP (

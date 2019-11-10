@@ -2,7 +2,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
 ENTITY registrador8 IS PORT (
-    clk, rst: IN std_logic;
+    clk, rst, en: IN std_logic;
     d: IN std_logic_vector(7 DOWNTO 0);
     q: OUT std_logic_vector(7 DOWNTO 0)
 );
