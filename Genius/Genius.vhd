@@ -51,7 +51,7 @@ ARCHITECTURE arch_Genius OF Genius IS
     COMPONENT control IS PORT (
         s: std_logic_vector(1 DOWNTO 0);
         clock: IN std_logic;
-        end_FPGA, end_User, end_Time, win, match: IN std_logic
+        end_FPGA, end_User, end_Time, win, match: IN std_logic;
         clock, r1, r2, e1, e2, e3, e4, sel: OUT std_logic
     );
     END COMPONENT;
