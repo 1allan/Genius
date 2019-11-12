@@ -18,8 +18,8 @@ ARCHITECTURE arch_dp OF datapath IS BEGIN
         signal_clk05Hz, 
         signal_clk1Hz, 
         signal_clk2Hz, 
-        signal_clk3Hz,
-        signal_counterUser_enable: std_logic;
+        signal_clk3Hz: std_logic;
+        --signal_counterUser_enable: std_logic;
     
     SIGNAL 
         signal_nbtnb, 
@@ -34,10 +34,19 @@ ARCHITECTURE arch_dp OF datapath IS BEGIN
     
     SIGNAL signal_setup: std_logic_vector(7 DOWNTO 0);
 
+    SIGNAL signal_out_FPGA, signal_out_user : std_logic_vector(63 DOWNTO 0);
+
     COMPONENT registrador8 IS PORT (
         clk, rst, en: IN std_logic;
         d: IN std_logic_vector(7 DOWNTO 0);
         q: OUT std_logic_vector(7 DOWNTO 0)
+    );
+    END COMPONENT;
+
+    COMPONENT registrador64 IS PORT (
+        clk, rst, en: IN std_logic;
+        d: IN std_logic_vector(63 DOWNTO 0);
+        q: OUT std_logic_vector(63 DOWNTO 0)
     );
     END COMPONENT;
         
@@ -77,13 +86,32 @@ ARCHITECTURE arch_dp OF datapath IS BEGIN
 
 BEGIN
 
-    signal_counterUser_enable <= (OR signal_nbtn) AND e2;
+    -- signal_counterUser_enable <= (
+    --     (signal_nbtn(0), signal_nbtn(1), signal_nbtn(2), signal_nbtn(3)) AND e2
+    -- );
+
+    reg_user: registrador64 PORT MAP (
+        clk_50,
+        r2,
+        (signal_nbtn(0), signal_nbtn(1), signal_nbtn(2), signal_nbtn(3)) AND e2,
+        signal_nbtn & signal_out_user(63 DOWNTO 4),
+        signal_out_user
+    );
+    
+    reg_fpga: registrador64 PORT MAP (
+        signal_clkHz,
+        r2,
+        e3,
+        signal_SEQFPGA & signal_out_FPGA (63 DOWNTO 4),
+        signal_out_FPGA
+    );
+
     counter_user: contador PORT MAP (
         signal_Round,
         clk_50,
         r2,
-        signal_counterUser_enable,
-        end_FPGA,
+        (signal_nbtn(0), signal_nbtn(1), signal_nbtn(2), signal_nbtn(3)) AND e2,
+        end_User,
         signal_SEQUSER
     );
 
