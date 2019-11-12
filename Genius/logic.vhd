@@ -16,16 +16,11 @@ ARCHITECTURE behavior OF logica IS
     SIGNAL i, rodadas: std_logic_vector(3 DOWNTO 0);
     SIGNAL j64, rodadas4: std_logic_vector(7 DOWNTO 0);
 
---- Nível de jogo: j
---- Sequência i (SW(9 DOWNTO 6) = setup)
---- Rodadas: rodadas
---- pontos = 64 × j + 4 × rodadas + i
-
 BEGIN
 
-    i <= setup; -- sequencia
-    j <= setup(7 DOWNTO 6); -- velocidade jogo
-    y <= setup(5 DOWNTO 4); -- sequencias possivels do jogo
+    i <= setup;
+    j <= setup(7 DOWNTO 6);
+    y <= setup(5 DOWNTO 4);
     rodadas <= roundd;
 
     j64 <= j & "000000";

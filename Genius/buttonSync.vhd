@@ -1,92 +1,90 @@
--- Button Press Synchronizer para keys que são ativas baixas (ou seja, quando pressionadas vao para nivel baixo)
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL; 
 
-library ieee;
-use ieee.std_logic_1164.all; 
-
-entity buttonSync is
-	port
-	(
-		KEY0, KEY1, KEY2, KEY3, CLK: in std_logic;
-		BTN0, BTN1, BTN2, BTN3: out std_logic
-	);
-end buttonSync;
+ENTITY buttonSync IS PORT (
+	key0, key1, key2, key3, clk: IN std_logic;
+	btn0, btn1, btn2, btn3: OUT std_logic
+);
+END buttonSync;
 
 
-architecture buttonSyncImpl of buttonSync is
-type STATES is (EsperaApertar, SaidaAtiva, EsperaSoltar);
-signal btn0state, btn1state, btn2state, btn3state : STATES := EsperaApertar;
-signal btn0next, btn1next, btn2next, btn3next : STATES := EsperaApertar;
-begin
+ARCHITECTURE buttonSyncImpl OF buttonSync IS
 
-	process (clk) 
-	begin
-		if clk'event and clk = '1' then -- Resposta na transicao positiva do clock
-			btn0state <= btn0next;			
-			btn1state <= btn1next;
-			btn2state <= btn2next;
-			btn3state <= btn3next;
-		end if;
-	end process;
+	TYPE STATES IS (espera_apertar, saida_ativa, espera_soltar);
+	SIGNAL btn0_state, btn1_state, btn2_state, btn_3state : STATES := espera_apertar;
+	SIGNAL btn0_next, btn1_next, btn2_next, btn3_next : STATES := espera_apertar;
+
+BEGIN
+
+	PROCESS (clk) 
+	BEGIN
+		IF clk'EVENT AND clk = '1' THEN -- Resposta na transicao positiva do clock
+			btn0_state <= btn0_next;			
+			btn1_state <= btn1_next;
+			btn2_state <= btn2_next;
+			btn_3state <= btn3_next;
+		END IF;
+	END PROCESS;
 	
-	process (key0,btn0state)
-	begin
-		case btn0state is
-			when EsperaApertar =>
-				if key0 = '0' then btn0next <= SaidaAtiva; else btn0next <= EsperaApertar; end if;
+	PROCESS (key0, btn0_state)
+	BEGIN
+		CASE btn0_state IS
+			WHEN espera_apertar =>
+				IF key0 = '0' THEN btn0_next <= saida_ativa; else btn0_next <= espera_apertar; END IF;
 				btn0 <= '1';
-			when SaidaAtiva =>
-				if key0 = '0' then btn0next <= EsperaSoltar; else btn0next <= EsperaApertar; end if;	
+			WHEN saida_ativa =>
+				IF key0 = '0' THEN btn0_next <= espera_soltar; else btn0_next <= espera_apertar; END IF;	
 				btn0 <= '0';
-			when EsperaSoltar =>
-				if key0 = '0' then btn0next <= EsperaSoltar;	else btn0next <= EsperaApertar; end if;	
+			WHEN espera_soltar =>
+				IF key0 = '0' THEN btn0_next <= espera_soltar;	else btn0_next <= espera_apertar; END IF;	
 				btn0 <= '1';
-		end case;		
-	end process;
+		END CASE;		
+	END PROCESS;
 	
-	process (key1,btn1state)
-	begin
-		case btn1state is
-			when EsperaApertar =>
-				if key1 = '0' then btn1next <= SaidaAtiva; else btn1next <= EsperaApertar; end if;
+	PROCESS (key1, btn1_state)
+	BEGIN
+		CASE btn1_state IS
+			WHEN espera_apertar =>
+				IF key1 = '0' THEN btn1_next <= saida_ativa; else btn1_next <= espera_apertar; END IF;
 				btn1 <= '1';
-			when SaidaAtiva =>
-				if key1 = '0' then btn1next <= EsperaSoltar; else btn1next <= EsperaApertar; end if;	
+			WHEN saida_ativa =>
+				IF key1 = '0' THEN btn1_next <= espera_soltar; else btn1_next <= espera_apertar; END IF;	
 				btn1 <= '0';
-			when EsperaSoltar =>
-				if key1 = '0' then btn1next <= EsperaSoltar;	else btn1next <= EsperaApertar; end if;	
+			WHEN espera_soltar =>
+				IF key1 = '0' THEN btn1_next <= espera_soltar;	else btn1_next <= espera_apertar; END IF;	
 				btn1 <= '1';
-		end case;		
-	end process;
+		END CASE;		
+	END PROCESS;
 	
-	process (key2,btn2state)
-	begin
-		case btn2state is
-			when EsperaApertar =>
-				if key2 = '0' then btn2next <= SaidaAtiva; else btn2next <= EsperaApertar; end if;
+	PROCESS (key2, btn2_state)
+	BEGIN
+		CASE btn2_state IS
+			WHEN espera_apertar =>
+				IF key2 = '0' THEN btn2_next <= saida_ativa; else btn2_next <= espera_apertar; END IF;
 				btn2 <= '1';
-			when SaidaAtiva =>
-				if key2 = '0' then btn2next <= EsperaSoltar; else btn2next <= EsperaApertar; end if;	
+			WHEN saida_ativa =>
+				IF key2 = '0' THEN btn2_next <= espera_soltar; else btn2_next <= espera_apertar; END IF;	
 				btn2 <= '0';
-			when EsperaSoltar =>
-				if key2 = '0' then btn2next <= EsperaSoltar;	else btn2next <= EsperaApertar; end if;	
+			WHEN espera_soltar =>
+				IF key2 = '0' THEN btn2_next <= espera_soltar;	else btn2_next <= espera_apertar; END IF;	
 				btn2 <= '1';
-		end case;		
-	end process;
+		END CASE;		
+	END PROCESS;
 	
-	process (key3,btn3state)
-	begin
-		case btn3state is
-			when EsperaApertar =>
-				if key3 = '0' then btn3next <= SaidaAtiva; else btn3next <= EsperaApertar; end if;
+	PROCESS (key3, btn_3state)
+	BEGIN
+		CASE btn_3state IS
+			WHEN espera_apertar =>
+				IF key3 = '0' THEN btn3_next <= saida_ativa; else btn3_next <= espera_apertar; END IF;
 				btn3 <= '1';
-			when SaidaAtiva =>
-				if key3 = '0' then btn3next <= EsperaSoltar; else btn3next <= EsperaApertar; end if;	
+			WHEN saida_ativa =>
+				IF key3 = '0' THEN btn3_next <= espera_soltar; else btn3_next <= espera_apertar; END IF;	
 				btn3 <= '0';
-			when EsperaSoltar =>
-				if key3 = '0' then btn3next <= EsperaSoltar;	else btn3next <= EsperaApertar; end if;	
+			WHEN espera_soltar =>
+				IF key3 = '0' THEN btn3_next <= espera_soltar;	else btn3_next <= espera_apertar; END IF;	
 				btn3 <= '1';
-		end case;		
-	end process;
+		END CASE;		
+	END PROCESS;
 
-end buttonSyncImpl;
+END buttonSyncImpl;
 
