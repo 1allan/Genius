@@ -7,7 +7,7 @@ ENTITY seq1 IS PORT(
 );
 END seq1;
 
-ARCHITECTURE arc OF seq1 IS
+ARCHITECTURE arch_seq1 OF seq1 IS
 BEGIN
 	outp <= "0001" WHEN address="0000" ELSE
 		"0100" WHEN address="0001" ELSE
@@ -25,4 +25,4 @@ BEGIN
 		"0001" WHEN address="1101" ELSE
 		"0100" WHEN address="1110" ELSE
 		"0010" WHEN address="1111";
-END ARCHITECTURE;
+END arch_seq1;

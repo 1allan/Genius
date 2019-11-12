@@ -19,4 +19,5 @@ BEGIN
                 q <= d;
             END IF;
         END IF;
-END PROCESS;
+	END PROCESS;
+END arch_reg64;

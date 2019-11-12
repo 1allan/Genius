@@ -10,8 +10,9 @@ ENTITY datapath IS PORT (
    r1, r2, e1, e2, e3, e4, sel: IN std_logic;
    end_FPGA, end_user, end_time, win, match: OUT std_logic
 );
+END datapath;
 
-ARCHITECTURE arch_dp OF datapath IS BEGIN
+ARCHITECTURE arch_dp OF datapath IS
 
     SIGNAL 
         signal_end_user,
@@ -45,7 +46,7 @@ ARCHITECTURE arch_dp OF datapath IS BEGIN
         signal_h22,
         signal_h11,
         signal_h01,
-        signal_h02: std_logic_vector(6 DOWNTO 0)
+        signal_h02: std_logic_vector(6 DOWNTO 0);
 
     COMPONENT registrador8 IS PORT (
         clk, rst, en: IN std_logic;
@@ -111,7 +112,7 @@ ARCHITECTURE arch_dp OF datapath IS BEGIN
 
 BEGIN
 
-    signal_end_user <= end_user
+    signal_end_user <= end_user;
     comp: comp PORT MAP (
         signal_out_FPGA,
         signal_out_user,
@@ -122,7 +123,7 @@ BEGIN
     reg_user: registrador64 PORT MAP (
         clk_50,
         r2,
-        (signal_nbtn(0), signal_nbtn(1), signal_nbtn(2), signal_nbtn(3)) AND e2,
+        (signal_nbtn(0) OR signal_nbtn(1) OR signal_nbtn(2) 0R signal_nbtn(3)) AND e2,
         signal_nbtn & signal_out_user(63 DOWNTO 4),
         signal_out_user
     );
@@ -131,7 +132,7 @@ BEGIN
         signal_clkHz,
         r2,
         e3,
-        signal_seqFPGA & signal_out_FPGA (63 DOWNTO 4),
+        signal_seqFPGA & signal_out_FPGA(63 DOWNTO 4),
         signal_out_FPGA
     );
 
@@ -139,7 +140,7 @@ BEGIN
         signal_round,
         clk_50,
         r2,
-        (signal_nbtn(0), signal_nbtn(1), signal_nbtn(2), signal_nbtn(3)) AND e2,
+        (signal_nbtn(0) OR signal_nbtn(1) OR signal_nbtn(2) OR signal_nbtn(3)) AND e2,
         end_user,
         signal_seq_user
     );
@@ -155,22 +156,22 @@ BEGIN
 
     sequencia_1: seq1 PORT MAP (
         signal_seqFPGA,
-        signal_seq1FPGA,
+        signal_seq1FPGA
     );
 
     sequencia_2: seq2 PORT MAP (
         signal_seqFPGA,
-        signal_seq2FPGA,
+        signal_seq2FPGA
     );
 
     sequencia_3: seq3 PORT MAP (
         signal_seqFPGA,
-        signal_seq3FPGA,
+        signal_seq3FPGA
     );
 
     sequencia_4: seq4 PORT MAP (
         signal_seqFPGA,
-        signal_seq4FPGA,
+        signal_seq4FPGA
     );
 
     counter_FPGA: contador PORT MAP (

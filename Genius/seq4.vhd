@@ -1,13 +1,13 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 
-ENTITY seq1 IS PORT(
+ENTITY seq4 IS PORT(
 	address: IN std_logic_vector(3 DOWNTO 0);
 	outp: OUT std_logic_vector(3 DOWNTO 0)
 );
-END seq1;
+END seq4;
 
-ARCHITECTURE arc OF seq1 IS
+ARCHITECTURE arch_seq4 OF seq4 IS
 BEGIN
 	outp <= "0001" WHEN address="0000" ELSE
 		"1100" WHEN address="0001" ELSE
@@ -25,4 +25,4 @@ BEGIN
 		"1111" WHEN address="1101" ELSE
 		"0100" WHEN address="1110" ELSE
 		"0010" WHEN address="1111";
-END ARCHITECTURE;
+END arch_seq4;

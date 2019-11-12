@@ -3,14 +3,14 @@ USE ieee.std_logic_1164.ALL;
 USE IEEE.std_logic_arith.ALL;
 USE IEEE.std_logic_unsigned.ALL;
 
-ENTITY logica IS PORT (
+ENTITY logic IS PORT (
     setup: IN std_logic_vector(7 DOWNTO 4);
     roundd: IN std_logic_vector(3 DOWNTO 0);
     points: out std_logic_vector(7 DOWNTO 0)
 );
-END logica;
+END logic;
 
-ARCHITECTURE behavior OF logica IS
+ARCHITECTURE arch_logic OF logic IS
     
     SIGNAL j, y: std_logic_vector(1 DOWNTO 0);
     SIGNAL i, rodadas: std_logic_vector(3 DOWNTO 0);
@@ -28,4 +28,4 @@ BEGIN
 
     points <= j64 + rodadas4 + i;
 
-END behavior;
+END arch_logic;

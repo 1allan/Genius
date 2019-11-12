@@ -6,6 +6,7 @@ ENTITY multiplexador IS PORT (
 	s: IN std_logic_vector(1 DOWNTO 0);
 	f: OUT std_logic_vector(3 DOWNTO 0)
 );
+END multiplexador;
 
 ARCHITECTURE arch_mux OF multiplexador IS BEGIN
 	f <= a WHEN s = "00" ELSE
