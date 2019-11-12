@@ -11,69 +11,69 @@ END divClock;
 
 ARCHITECTURE arch_divClock OF divClock IS
     
-    SIGNAL contador: std_logic_vector(27 DOWNTO 0);
+    SIGNAL contador05, contador1, contador2, contador3: std_logic_vector(27 DOWNTO 0);
 
 BEGIN
     
-    P1: PROCESS (clock, reset, contador)
+    P1: PROCESS (clock, reset, contador05)
     BEGIN
         IF reset = '0' THEN
-            contador <= x"0000000";
+            contador05 <= x"0000000";
         ELSIF clock'EVENT AND clock = '1' THEN
-            contador <= contador + 1;
+            contador05 <= contador05 + 1;
         END IF;
 
-        IF contador = x"17D783F" THEN
+        IF contador05 = x"17D783F" THEN
             clk05Hz <= '1';
-            contador <= x"0000000";
+            contador05 <= x"0000000";
         ELSE
             clk05Hz <= '0';
         END IF;
     END PROCESS;
 
-    P2: PROCESS (clock, reset, contador)
+    P2: PROCESS (clock, reset, contador1)
     BEGIN
         IF reset = '0' THEN
-            contador <= x"0000000";
+            contador1 <= x"0000000";
         ELSIF clock'EVENT AND clock = '1' THEN
-            contador <= contador + 1;
+            contador1 <= contador1 + 1;
         END IF;
 
-        IF contador = x"2FAF07F" THEN
+        IF contador1 = x"2FAF07F" THEN
             clk1Hz <= '1';
-            contador <= x"0000000";
+            contador1 <= x"0000000";
         ELSE
             clk1Hz <= '0';
         END IF;
     END PROCESS;
 
-    P3: PROCESS (clock, reset, contador)
+    P3: PROCESS (clock, reset, contador2)
     BEGIN
         IF reset = '0' THEN
-            contador <= x"0000000";
+            contador2 <= x"0000000";
         ELSIF clock'EVENT AND clock = '1' THEN
-            contador <= contador + 1;
+            contador2 <= contador2 + 1;
         END IF;
 
-        IF contador = x"5F5E0FF" THEN
+        IF contador2 = x"5F5E0FF" THEN
             clk2Hz <= '1';
-            contador <= x"0000000";
+            contador2 <= x"0000000";
         ELSE
             clk2Hz <= '0';
         END IF;
     END PROCESS;
 
-    P4: PROCESS (clock, reset, contador)
+    P4: PROCESS (clock, reset, contador3)
     BEGIN
         IF reset = '0' THEN
-            contador <= x"0000000";
+            contador3 <= x"0000000";
         ELSIF clock'EVENT AND clock = '1' THEN
-            contador <= contador + 1;
+            contador3 <= contador3 + 1;
         END IF;
 
-        IF contador = x"8F0D17F" THEN
+        IF contador3 = x"8F0D17F" THEN
             clk3Hz <= '1';
-            contador <= x"0000000";
+            contador3 <= x"0000000";
         ELSE
             clk3Hz <= '0';
         END IF;
