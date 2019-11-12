@@ -8,18 +8,18 @@ ENTITY datapath IS PORT (
    ldr0, ldr1: OUT std_logic_vector(3 downto 0); 
    h0, h1, h2, h3, h4, h5: OUT std_logic_vector(6 downto 0); 
    r1, r2, e1, e2, e3, e4, sel: IN std_logic;
-   end_FPGA, end_User, end_Time, win, match: OUT std_logic
+   end_FPGA, end_user, end_Time, win, match: OUT std_logic
 );
 
 ARCHITECTURE arch_dp OF datapath IS BEGIN
 
     SIGNAL 
+        signal_end_user,
         signal_clkHz, 
         signal_clk05Hz, 
         signal_clk1Hz, 
         signal_clk2Hz, 
         signal_clk3Hz: std_logic;
-        --signal_counterUser_enable: std_logic;
     
     SIGNAL 
         signal_nbtnb, 
@@ -84,11 +84,23 @@ ARCHITECTURE arch_dp OF datapath IS BEGIN
     );
     END COMPONENT;
 
+    COMPONENT comp IS PORT (
+        fpga: IN std_logic_vector(63 DOWNTO 0);
+        user: IN std_logic_vector(63 DOWNTO 0);
+        end_u: IN std_logic;
+        match: OUT std_logic
+    );
+    END COMPONENT;
+
 BEGIN
 
-    -- signal_counterUser_enable <= (
-    --     (signal_nbtn(0), signal_nbtn(1), signal_nbtn(2), signal_nbtn(3)) AND e2
-    -- );
+    signal_end_user <= end_user
+    comp: comp PORT MAP (
+        signal_out_FPGA,
+        signal_out_user,
+        signal_end_user,
+        match
+    );
 
     reg_user: registrador64 PORT MAP (
         clk_50,
@@ -111,7 +123,7 @@ BEGIN
         clk_50,
         r2,
         (signal_nbtn(0), signal_nbtn(1), signal_nbtn(2), signal_nbtn(3)) AND e2,
-        end_User,
+        end_user,
         signal_SEQUSER
     );
 
@@ -211,5 +223,7 @@ BEGIN
 
     signal_nbtn <= NOT signal_nbtn;
 
+    ledr0 <= signal_out_FPGA(63 DOWNTO 60);
+    ledr1 <= NOT key;
 
 END arch_dp;
