@@ -57,8 +57,15 @@ set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 set_global_assignment -name VHDL_FILE Genius.vhd
 set_global_assignment -name VHDL_FILE buttonSync.vhd
 set_global_assignment -name VHDL_FILE seq1.vhd
+set_global_assignment -name VHDL_FILE seq2.vhd
+set_global_assignment -name VHDL_FILE seq3.vhd
+set_global_assignment -name VHDL_FILE seq4.vhd
 set_global_assignment -name VHDL_FILE multiplexador.vhd
 set_global_assignment -name VHDL_FILE registrador64.vhd
 set_global_assignment -name VHDL_FILE registrador8.vhd
 set_global_assignment -name VHDL_FILE control.vhd
 set_global_assignment -name VHDL_FILE datapath.vhd
+set_global_assignment -name VHDL_FILE comp.vhd
+set_global_assignment -name VHDL_FILE contador.vhd
+set_global_assignment -name VHDL_FILE decodificador.vhd
+set_global_assignment -name VHDL_FILE divClock.vhd
