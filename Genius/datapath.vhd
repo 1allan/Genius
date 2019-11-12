@@ -23,8 +23,8 @@ ARCHITECTURE arch_dp OF datapath IS BEGIN
     
     SIGNAL 
         signal_nbtnb, 
-        sinal_Time, 
-        signal_Round, 
+        signal_time, 
+        signal_round, 
         signal_SEQFPGA, 
         signal_SEQ1FPGA, 
         signal_SEQ2FPGA, 
@@ -32,14 +32,31 @@ ARCHITECTURE arch_dp OF datapath IS BEGIN
         signal_SEQ4FPGA,
         signal_SEQUSER: std_logic_vector(3 DOWNTO 0);
     
-    SIGNAL signal_setup: std_logic_vector(7 DOWNTO 0);
+    SIGNAL signal_setup, signal_points: std_logic_vector(7 DOWNTO 0);
 
     SIGNAL signal_out_FPGA, signal_out_user : std_logic_vector(63 DOWNTO 0);
+
+    SIGNAL 
+        signal_h51,
+        signal_h41,
+        signal_h42,
+        signal_h31,
+        signal_h21,
+        signal_h22,
+        signal_h11,
+        signal_h01,
+        signal_h02: std_logic_vector(6 DOWNTO 0)
 
     COMPONENT registrador8 IS PORT (
         clk, rst, en: IN std_logic;
         d: IN std_logic_vector(7 DOWNTO 0);
         q: OUT std_logic_vector(7 DOWNTO 0)
+    );
+    END COMPONENT;
+
+    COMPONENT decodificador IS PORT (
+        G: IN std_logic_vector(3 DOWNTO 0);
+        T: OUT std_logic_vector(6 DOWNTO 0)
     );
     END COMPONENT;
 
@@ -119,7 +136,7 @@ BEGIN
     );
 
     counter_user: contador PORT MAP (
-        signal_Round,
+        signal_round,
         clk_50,
         r2,
         (signal_nbtn(0), signal_nbtn(1), signal_nbtn(2), signal_nbtn(3)) AND e2,
@@ -132,7 +149,7 @@ BEGIN
         signal_SEQ2FPGA,
         signal_SEQ3FPGA,
         signal_SEQ4FPGA,
-        setup(5 DOWNTO 4),
+        signal_setup(5 DOWNTO 4),
         signal_SEQFPGA
     );
 
@@ -157,7 +174,7 @@ BEGIN
     );
 
     counter_FPGA: contador PORT MAP (
-        signal_Round,
+        signal_round,
         signal_clkHZ,
         r2,
         e3,
@@ -171,7 +188,7 @@ BEGIN
         r1,
         e4,
         win,
-        signal_Round
+        signal_round
     );
 
     counter_time: contador PORT MAP (
@@ -180,7 +197,7 @@ BEGIN
         r2,
         e2,
         end_Time,
-        signal_Time
+        signal_time
     );
 
     FSM_clock: divClock PORT MAP (
@@ -215,13 +232,32 @@ BEGIN
         key(2), 
         key(3), 
         clk_50, 
-        signal_nbtn(0), 
-        signal_nbtn(1), 
-        signal_nbtn(2), 
-        signal_nbtn(3)
+        NOT signal_nbtn(0), 
+        NOT signal_nbtn(1), 
+        NOT signal_nbtn(2), 
+        NOT signal_nbtn(3)
     );
 
-    signal_nbtn <= NOT signal_nbtn;
+    h5_mux1: multiplexador PORT MAP ("0111000", "1000001", "0000000", "0000000", '0' & win, signal_h51);
+    h5_mux2: multiplexador PORT MAP ("1110001", signal_h51, "0000000", "0000000", '0' & sel, h5);
+
+    h4_decod: decodificador PORT MAP ("00" & signal_setup (7 DOWNTO 6), signal_h41);
+    h4_mux1: multiplexador PORT MAP ("0011000", "0100100", "0000000", "0000000", '0' & win, signal_h42);
+    h4_mux2: multiplexador PORT MAP (signal_h41, signal_h42, "0000000", "0000000", '0' & sel, h4);
+
+    h3_mux1: multiplexador PORT MAP ("0000100", "0110000", "0000000", "0000000", '0' & win, signal_h31);
+    h3_mux2: multiplexador PORT MAP ("1110000", signal_h31, "0000000", "0000000", '0' & sel, h3);
+
+    h2_decod: decodificador PORT MAP (signal_time, signal_h21);
+    h2_mux1: multiplexador PORT MAP ("0001000", "0111001", "0000000", "0000000", '0' & win, signal_h22);
+    h2_mux2: multiplexador PORT MAP (signal_h21, signal_h22, "0000000", "0000000", '0' & sel, h2);
+
+    h1_decod: decodificador PORT MAP (signal_points (7 DOWNTO 4), signal_h11);
+    h1_mux1: multiplexador PORT MAP ("0111001", signal_h11, "0000000", "0000000", '0' & sel, h1);
+
+    h0_decod1: decodificador PORT MAP (signal_round, signal_h01);
+    h0_decod2: decodificador PORT MAP (signal_points (3 DOWNTO 0), signal_h02);
+    h0_mux: multiplexador PORT MAP (signal_h01, signal_h02, "0000000", "0000000", '0' & sel, h0);
 
     ledr0 <= signal_out_FPGA(63 DOWNTO 60);
     ledr1 <= NOT key;
