@@ -21,7 +21,9 @@ BEGIN
         IF reset = '0' THEN
             contador <= "0000";
         ELSIF clock'EVENT AND clock = '1' THEN
-            contador <= contador + 1;
+            IF enable = '1' THEN
+                contador <= contador + 1;
+            END IF;
         END IF;
 
         IF contador = "1010" THEN
