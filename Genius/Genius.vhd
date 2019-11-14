@@ -5,7 +5,7 @@ ENTITY Genius IS PORT (
     KEY: IN std_logic_vector(3 DOWNTO 0);
     SW: IN std_logic_vector(9 DOWNTO 0);
     CLK_50: IN std_logic;
-    LEDR: IN std_logic_vector(9 DOWNTO 0);
+    LEDR: OUT std_logic_vector(9 DOWNTO 0);
     HEX0, HEX1, HEX2, HEX3, HEX4, HEX5: OUT std_logic_vector(6 DOWNTO 0)
 );
 END Genius;
@@ -53,17 +53,17 @@ ARCHITECTURE arch_Genius OF Genius IS
         s: std_logic_vector(1 DOWNTO 0);
         clock: IN std_logic;
         end_FPGA, end_user, end_time, win, match: IN std_logic;
-        clock, r1, r2, e1, e2, e3, e4, sel: OUT std_logic
+        r1, r2, e1, e2, e3, e4, sel: OUT std_logic
     );
     END COMPONENT;
 
 BEGIN
-    a: datapath PORT MAP (
+    dtp: datapath PORT MAP (
         KEY, 
         SW(9 DOWNTO 2), 
         CLK_50,
         out_ldr0, 
-        out_ledr1, 
+        out_ldr1, 
         out_h0, 
         out_h1, 
         out_h2, 
@@ -84,7 +84,7 @@ BEGIN
         signal_match
     );
 
-    b: control PORT MAP (
+    ctrl: control PORT MAP (
         SW(1 DOWNTO 0),
         CLK_50,
         signal_end_FPGA, 
@@ -101,8 +101,8 @@ BEGIN
         signal_sel
     );
 
-    LEDR(3 DOWNTO 0) <= out_ledr0;
-    LEDR(9 DOWNTO 6) <= out_ledr1;
+    LEDR(3 DOWNTO 0) <= out_ldr0;
+    LEDR(9 DOWNTO 6) <= out_ldr1;
 
     HEX0 <= out_h0;    
     HEX1 <= out_h1;    

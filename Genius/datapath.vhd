@@ -1,5 +1,6 @@
 LIBRARY IEEE;
 USE IEEE.Std_Logic_1164.ALL;
+USE IEEE.std_logic_unsigned.ALL;
 
 ENTITY datapath IS PORT (
    key: IN std_logic_vector(3 DOWNTO 0);
@@ -15,6 +16,7 @@ END datapath;
 ARCHITECTURE arch_dp OF datapath IS
 
     SIGNAL 
+        signal_win,
         signal_end_user,
         signal_clkHz, 
         signal_clk05Hz, 
@@ -23,7 +25,8 @@ ARCHITECTURE arch_dp OF datapath IS
         signal_clk3Hz: std_logic;
     
     SIGNAL 
-        signal_nbtnb, 
+        signal_btn,
+        signal_nbtn, 
         signal_time, 
         signal_round, 
         signal_seqFPGA, 
@@ -67,6 +70,14 @@ ARCHITECTURE arch_dp OF datapath IS
         q: OUT std_logic_vector(63 DOWNTO 0)
     );
     END COMPONENT;
+
+    COMPONENT registrador64u IS PORT (
+        clk, rst, enable: IN std_logic;
+        nbtn: IN std_logic_vector(3 DOWNTO 0);
+        d: IN std_logic_vector(63 DOWNTO 0);
+        q: OUT std_logic_vector(63 DOWNTO 0)
+    );
+    END COMPONENT;
         
     COMPONENT buttonSync IS PORT (
         KEY0, KEY1, KEY2, KEY3, CLK: in std_logic;
@@ -88,6 +99,20 @@ ARCHITECTURE arch_dp OF datapath IS
     );
     END COMPONENT;
                     
+    COMPONENT multiplexador2 IS PORT (
+        a, b: IN std_logic_vector(6 DOWNTO 0);
+        s: IN std_logic;
+        f: OUT std_logic_vector(6 DOWNTO 0)
+    );
+    END COMPONENT;
+                    
+    COMPONENT multiplexadorclk IS PORT (
+        a, b, c, d: IN std_logic;
+        s: IN std_logic_vector(1 DOWNTO 0);
+        f: OUT std_logic
+    );
+    END COMPONENT;
+                    
     COMPONENT contador IS PORT (
         data: IN std_logic_vector(3 DOWNTO 0);
         clock, reset, enable: IN std_logic;
@@ -97,6 +122,24 @@ ARCHITECTURE arch_dp OF datapath IS
     END COMPONENT;
 
     COMPONENT seq1 IS PORT(
+        address: IN std_logic_vector(3 DOWNTO 0);
+        outp: OUT std_logic_vector(3 DOWNTO 0)
+    );
+    END COMPONENT;
+
+    COMPONENT seq2 IS PORT(
+        address: IN std_logic_vector(3 DOWNTO 0);
+        outp: OUT std_logic_vector(3 DOWNTO 0)
+    );
+    END COMPONENT;
+
+    COMPONENT seq3 IS PORT(
+        address: IN std_logic_vector(3 DOWNTO 0);
+        outp: OUT std_logic_vector(3 DOWNTO 0)
+    );
+    END COMPONENT;
+
+    COMPONENT seq4 IS PORT(
         address: IN std_logic_vector(3 DOWNTO 0);
         outp: OUT std_logic_vector(3 DOWNTO 0)
     );
@@ -112,18 +155,18 @@ ARCHITECTURE arch_dp OF datapath IS
 
 BEGIN
 
-    signal_end_user <= end_user;
-    comp: comp PORT MAP (
+    cmp: comp PORT MAP (
         signal_out_FPGA,
         signal_out_user,
         signal_end_user,
         match
     );
-
-    reg_user: registrador64 PORT MAP (
+    
+    reg_user: registrador64u PORT MAP (
         clk_50,
         r2,
-        (signal_nbtn(0) OR signal_nbtn(1) OR signal_nbtn(2) 0R signal_nbtn(3)) AND e2,
+        e2,
+        signal_nbtn,
         signal_nbtn & signal_out_user(63 DOWNTO 4),
         signal_out_user
     );
@@ -141,7 +184,7 @@ BEGIN
         clk_50,
         r2,
         (signal_nbtn(0) OR signal_nbtn(1) OR signal_nbtn(2) OR signal_nbtn(3)) AND e2,
-        end_user,
+        signal_end_user,
         signal_seq_user
     );
 
@@ -188,7 +231,7 @@ BEGIN
         clk_50,
         r1,
         e4,
-        win,
+        signal_win,
         signal_round
     );
 
@@ -210,7 +253,7 @@ BEGIN
         signal_clk3Hz
     );
 
-    clock_mux: multiplexador PORT MAP (
+    clock_mux: multiplexadorclk PORT MAP (
         signal_clk05Hz, 
         signal_clk1Hz, 
         signal_clk2Hz, 
@@ -233,34 +276,39 @@ BEGIN
         key(2), 
         key(3), 
         clk_50, 
-        NOT signal_nbtn(0), 
-        NOT signal_nbtn(1), 
-        NOT signal_nbtn(2), 
-        NOT signal_nbtn(3)
+        signal_btn(0), 
+        signal_btn(1), 
+        signal_btn(2), 
+        signal_btn(3)
     );
+    
+    signal_nbtn <= NOT signal_btn;
+    
+    win <= signal_win;
+    end_user <= signal_end_user;
 
-    h5_mux1: multiplexador PORT MAP ("0111000", "1000001", "0000000", "0000000", '0' & win, signal_h51);
-    h5_mux2: multiplexador PORT MAP ("1110001", signal_h51, "0000000", "0000000", '0' & sel, h5);
+    h5_mux1: multiplexador2 PORT MAP ("0111000", "1000001", signal_win, signal_h51);
+    h5_mux2: multiplexador2 PORT MAP ("1110001", signal_h51, sel, h5);
 
     h4_decod: decodificador PORT MAP ("00" & signal_setup (7 DOWNTO 6), signal_h41);
-    h4_mux1: multiplexador PORT MAP ("0011000", "0100100", "0000000", "0000000", '0' & win, signal_h42);
-    h4_mux2: multiplexador PORT MAP (signal_h41, signal_h42, "0000000", "0000000", '0' & sel, h4);
+    h4_mux1: multiplexador2 PORT MAP ("0011000", "0100100", signal_win, signal_h42);
+    h4_mux2: multiplexador2 PORT MAP (signal_h41, signal_h42, sel, h4);
 
-    h3_mux1: multiplexador PORT MAP ("0000100", "0110000", "0000000", "0000000", '0' & win, signal_h31);
-    h3_mux2: multiplexador PORT MAP ("1110000", signal_h31, "0000000", "0000000", '0' & sel, h3);
+    h3_mux1: multiplexador2 PORT MAP ("0000100", "0110000", signal_win, signal_h31);
+    h3_mux2: multiplexador2 PORT MAP ("1110000", signal_h31, sel, h3);
 
     h2_decod: decodificador PORT MAP (signal_time, signal_h21);
-    h2_mux1: multiplexador PORT MAP ("0001000", "0111001", "0000000", "0000000", '0' & win, signal_h22);
-    h2_mux2: multiplexador PORT MAP (signal_h21, signal_h22, "0000000", "0000000", '0' & sel, h2);
+    h2_mux1: multiplexador2 PORT MAP ("0001000", "0111001", signal_win, signal_h22);
+    h2_mux2: multiplexador2 PORT MAP (signal_h21, signal_h22, sel, h2);
 
     h1_decod: decodificador PORT MAP (signal_points (7 DOWNTO 4), signal_h11);
-    h1_mux1: multiplexador PORT MAP ("0111001", signal_h11, "0000000", "0000000", '0' & sel, h1);
+    h1_mux1: multiplexador2 PORT MAP ("0111001", signal_h11, sel, h1);
 
     h0_decod1: decodificador PORT MAP (signal_round, signal_h01);
     h0_decod2: decodificador PORT MAP (signal_points (3 DOWNTO 0), signal_h02);
-    h0_mux: multiplexador PORT MAP (signal_h01, signal_h02, "0000000", "0000000", '0' & sel, h0);
+    h0_mux: multiplexador2 PORT MAP (signal_h01, signal_h02, sel, h0);
 
-    ledr0 <= signal_out_FPGA(63 DOWNTO 60);
-    ledr1 <= NOT key;
+    ldr0 <= signal_out_FPGA(63 DOWNTO 60);
+    ldr1 <= NOT key;
 
 END arch_dp;

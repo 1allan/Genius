@@ -13,7 +13,7 @@ BEGIN
     PROCESS (clk, d, enable, rst)
     BEGIN
         IF rst = '0' THEN
-            q <= "0000";
+            q <= "00000000";
         ELSIF (clk'EVENT AND clk = '1') THEN
             IF enable = '1' THEN
                 q <= d;

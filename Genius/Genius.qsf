@@ -61,7 +61,10 @@ set_global_assignment -name VHDL_FILE seq2.vhd
 set_global_assignment -name VHDL_FILE seq3.vhd
 set_global_assignment -name VHDL_FILE seq4.vhd
 set_global_assignment -name VHDL_FILE multiplexador.vhd
+set_global_assignment -name VHDL_FILE multiplexador2.vhd
+set_global_assignment -name VHDL_FILE multiplexadorclk.vhd
 set_global_assignment -name VHDL_FILE registrador64.vhd
+set_global_assignment -name VHDL_FILE registrador64u.vhd
 set_global_assignment -name VHDL_FILE registrador8.vhd
 set_global_assignment -name VHDL_FILE control.vhd
 set_global_assignment -name VHDL_FILE datapath.vhd
