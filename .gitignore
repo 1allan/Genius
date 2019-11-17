@@ -1,8 +1,6 @@
 .vscode
 
-db
-incremental_db
 output_files
-
+db
 *.bak
 *.txt

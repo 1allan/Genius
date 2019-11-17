@@ -39,9 +39,9 @@ ARCHITECTURE arch_Genius OF Genius IS
         out_h5: std_logic_vector(6 DOWNTO 0);
 
     COMPONENT datapath IS PORT (
-        key: IN std_logic_vector(3 DOWNTO 0);
-        switch: IN std_logic_vector(7 DOWNTO 0);
-        clk_50: IN std_logic;
+        k: IN std_logic_vector(3 DOWNTO 0);
+        s: IN std_logic_vector(7 DOWNTO 0);
+        clock: IN std_logic;
         ldr0, ldr1: OUT std_logic_vector(3 downto 0); 
         h0, h1, h2, h3, h4, h5: OUT std_logic_vector(6 downto 0); 
         r1, r2, e1, e2, e3, e4, sel: IN std_logic;
