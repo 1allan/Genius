@@ -54,24 +54,25 @@ set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_boundary_scan
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
-set_global_assignment -name VHDL_FILE Genius.vhd
-set_global_assignment -name VHDL_FILE buttonSync.vhd
-set_global_assignment -name VHDL_FILE seq1.vhd
-set_global_assignment -name VHDL_FILE seq2.vhd
-set_global_assignment -name VHDL_FILE seq3.vhd
-set_global_assignment -name VHDL_FILE seq4.vhd
-set_global_assignment -name VHDL_FILE multiplexador.vhd
-set_global_assignment -name VHDL_FILE multiplexador2.vhd
-set_global_assignment -name VHDL_FILE multiplexadorclk.vhd
-set_global_assignment -name VHDL_FILE registrador64.vhd
-set_global_assignment -name VHDL_FILE registrador64u.vhd
-set_global_assignment -name VHDL_FILE registrador8.vhd
-set_global_assignment -name VHDL_FILE control.vhd
+set_global_assignment -name VHDL_FILE components/buttonSync.vhd
+set_global_assignment -name VHDL_FILE components/seq1.vhd
+set_global_assignment -name VHDL_FILE components/seq2.vhd
+set_global_assignment -name VHDL_FILE components/seq3.vhd
+set_global_assignment -name VHDL_FILE components/seq4.vhd
+set_global_assignment -name VHDL_FILE components/multiplexador.vhd
+set_global_assignment -name VHDL_FILE components/multiplexador2.vhd
+set_global_assignment -name VHDL_FILE components/multiplexadorclk.vhd
+set_global_assignment -name VHDL_FILE components/registrador64.vhd
+set_global_assignment -name VHDL_FILE components/registrador64u.vhd
+set_global_assignment -name VHDL_FILE components/registrador8.vhd
+set_global_assignment -name VHDL_FILE components/logic.vhd
+set_global_assignment -name VHDL_FILE components/comp.vhd
+set_global_assignment -name VHDL_FILE components/contador.vhd
+set_global_assignment -name VHDL_FILE components/decodificador.vhd
+set_global_assignment -name VHDL_FILE components/divClock.vhd
 set_global_assignment -name VHDL_FILE datapath.vhd
-set_global_assignment -name VHDL_FILE comp.vhd
-set_global_assignment -name VHDL_FILE contador.vhd
-set_global_assignment -name VHDL_FILE decodificador.vhd
-set_global_assignment -name VHDL_FILE divClock.vhd
+set_global_assignment -name VHDL_FILE control.vhd
+set_global_assignment -name VHDL_FILE Genius.vhd
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top

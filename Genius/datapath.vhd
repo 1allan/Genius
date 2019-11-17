@@ -52,7 +52,7 @@ ARCHITECTURE arch_dp OF datapath IS
         signal_h02: std_logic_vector(6 DOWNTO 0);
 
     COMPONENT registrador8 IS PORT (
-        clk, rst, en: IN std_logic;
+        clk, rst, enable: IN std_logic;
         d: IN std_logic_vector(7 DOWNTO 0);
         q: OUT std_logic_vector(7 DOWNTO 0)
     );
@@ -65,7 +65,7 @@ ARCHITECTURE arch_dp OF datapath IS
     END COMPONENT;
 
     COMPONENT registrador64 IS PORT (
-        clk, rst, en: IN std_logic;
+        clk, rst, enable: IN std_logic;
         d: IN std_logic_vector(63 DOWNTO 0);
         q: OUT std_logic_vector(63 DOWNTO 0)
     );
@@ -87,7 +87,7 @@ ARCHITECTURE arch_dp OF datapath IS
         
     COMPONENT divClock IS PORT ( 
         reset: IN std_logic;
-        clk_50: IN std_logic;
+        clock: IN std_logic;
         clk05Hz, clk1Hz, clk2Hz, clk3Hz: OUT std_logic
     );
     END COMPONENT;
@@ -148,12 +148,25 @@ ARCHITECTURE arch_dp OF datapath IS
     COMPONENT comp IS PORT (
         fpga: IN std_logic_vector(63 DOWNTO 0);
         user: IN std_logic_vector(63 DOWNTO 0);
-        end_u: IN std_logic;
+        end_user: IN std_logic;
         match: OUT std_logic
     );
     END COMPONENT;
 
+    COMPONENT logic IS PORT (
+        lvl: IN std_logic_vector(1 DOWNTO 0);
+        roundd: IN std_logic_vector(3 DOWNTO 0);
+        pts: OUT std_logic_vector(7 DOWNTO 0)
+    );
+    END COMPONENT;
+
 BEGIN
+
+    lgc: logic PORT MAP (
+        signal_setup,
+        signal_round,
+        signal_points
+    );
 
     cmp: comp PORT MAP (
         signal_out_FPGA,
