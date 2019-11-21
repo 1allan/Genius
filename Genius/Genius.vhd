@@ -4,7 +4,7 @@ USE IEEE.Std_Logic_1164.ALL;
 ENTITY Genius IS PORT (
     KEY: IN std_logic_vector(3 DOWNTO 0);
     SW: IN std_logic_vector(9 DOWNTO 0);
-    CLK_50: IN std_logic;
+    CLOCK_50: IN std_logic;																		--mudou clk_50
     LEDR: OUT std_logic_vector(9 DOWNTO 0);
     HEX0, HEX1, HEX2, HEX3, HEX4, HEX5: OUT std_logic_vector(6 DOWNTO 0)
 );
@@ -41,7 +41,7 @@ ARCHITECTURE arch_Genius OF Genius IS
     COMPONENT datapath IS PORT (
         key: IN std_logic_vector(3 DOWNTO 0);
         switch: IN std_logic_vector(7 DOWNTO 0);
-        clk_50: IN std_logic;
+        clock: IN std_logic;
         ldr0, ldr1: OUT std_logic_vector(3 downto 0); 
         h0, h1, h2, h3, h4, h5: OUT std_logic_vector(6 downto 0); 
         r1, r2, e1, e2, e3, e4, sel: IN std_logic;
@@ -61,7 +61,7 @@ BEGIN
     dtp: datapath PORT MAP (
         KEY, 
         SW(9 DOWNTO 2), 
-        CLK_50,
+        CLOCK_50,
         out_ldr0, 
         out_ldr1, 
         out_h0, 
@@ -86,7 +86,7 @@ BEGIN
 
     ctrl: control PORT MAP (
         SW(1 DOWNTO 0),
-        CLK_50,
+        CLOCK_50,
         signal_end_FPGA, 
         signal_end_user, 
         signal_end_time, 
