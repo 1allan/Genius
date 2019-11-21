@@ -17,14 +17,14 @@ ARCHITECTURE arch_control OF control IS
 BEGIN
 	p1: PROCESS (clock, s(1))
 	BEGIN
-		IF S(1) = '0' THEN
+		IF s(1) = '1' THEN
 			ea <= start;
 		ELSIF clock'EVENT AND CLOCK = '1' THEN
 			ea <= pe;
 		END IF;
 	END PROCESS;
 	
-	p2: PROCESS (ea, s(0))
+	p2: PROCESS (ea, s(0), end_fpga, end_user, end_time, win, match)
 	BEGIN
 		CASE ea IS 
 			WHEN start =>
@@ -38,7 +38,7 @@ BEGIN
 				pe <= setup;
 			
 			WHEN setup =>
-				r1 <= '0';
+				r1 <= '0';												--provavel problema
 				r2 <= '0';
 				sel <= '0';
 				e1 <= '1';
@@ -78,14 +78,10 @@ BEGIN
 
 				IF end_time = '1' THEN
 					pe <= result;
-				END IF;
-
-				IF end_user = '1' THEN
-					IF end_time = '0' THEN
-						pe <= check;
-					ELSIF end_time = '1' THEN
-						pe <= result;
-					END IF;
+				ELSIF end_user = '1' THEN
+					pe <= check;
+				ELSE
+					pe <= play_user;
 				END IF;
 				
 			WHEN check =>
@@ -126,6 +122,7 @@ BEGIN
 				e2 <= '0';
 				e3 <= '0';
 				e4 <= '0';
+				PE <= RESULT;
 				
 		END CASE;
 	END PROCESS;

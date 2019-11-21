@@ -22,15 +22,15 @@ BEGIN
             contador <= "0000";
         ELSIF clock'EVENT AND clock = '1' THEN
             IF enable = '1' THEN
-                contador <= contador + 1;
-            END IF;
-        END IF;
-
-        IF contador = "1010" THEN
-            tc <= '1';
-            contador <= "0000";
-        ELSE
-            tc <= '0';
-        END IF;
+						contador <= contador + 1;
+					  IF contador = data THEN
+							tc <= '1';
+							contador <= "0000";
+					  ELSE
+							tc <= '0';
+					  END IF;
+				END IF;
+			END IF;
     END PROCESS;
+	 contagem <= contador;
 END arch_contador;
