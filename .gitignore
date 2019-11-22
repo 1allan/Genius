@@ -1,6 +1,4 @@
 .vscode
 
-output_files
-db
 *.bak
 *.txt

@@ -4,7 +4,7 @@ USE IEEE.Std_Logic_1164.ALL;
 ENTITY Genius IS PORT (
     KEY: IN std_logic_vector(3 DOWNTO 0);
     SW: IN std_logic_vector(9 DOWNTO 0);
-    CLOCK_50: IN std_logic;																		--mudou clk_50
+    CLOCK_50: IN std_logic;																		
     LEDR: OUT std_logic_vector(9 DOWNTO 0);
     HEX0, HEX1, HEX2, HEX3, HEX4, HEX5: OUT std_logic_vector(6 DOWNTO 0)
 );
@@ -53,7 +53,8 @@ ARCHITECTURE arch_Genius OF Genius IS
         s: std_logic_vector(1 DOWNTO 0);
         clock: IN std_logic;
         end_FPGA, end_user, end_time, win, match: IN std_logic;
-        r1, r2, e1, e2, e3, e4, sel: OUT std_logic
+        r1, r2, e1, e2, e3, e4, sel: OUT std_logiC;
+		  led: out std_logic
     );
     END COMPONENT;
 
@@ -98,7 +99,8 @@ BEGIN
         signal_e2, 
         signal_e3, 
         signal_e4, 
-        signal_sel
+        signal_sel,
+		  LEDR(5)
     );
 
     LEDR(3 DOWNTO 0) <= out_ldr0;

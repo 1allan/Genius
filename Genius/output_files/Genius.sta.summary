@@ -1,0 +1,165 @@
+------------------------------------------------------------
+Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1100mV 85C Model Setup 'CLOCK_50'
+Slack : -3.728
+TNS   : -522.592
+
+Type  : Slow 1100mV 85C Model Setup 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : -3.001
+TNS   : -185.085
+
+Type  : Slow 1100mV 85C Model Hold 'CLOCK_50'
+Slack : 0.216
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : 0.534
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Recovery 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : -3.160
+TNS   : -211.625
+
+Type  : Slow 1100mV 85C Model Recovery 'CLOCK_50'
+Slack : -1.347
+TNS   : -216.979
+
+Type  : Slow 1100mV 85C Model Removal 'CLOCK_50'
+Slack : 0.920
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Removal 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : 1.260
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : -0.646
+TNS   : -50.025
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'CLOCK_50'
+Slack : -0.394
+TNS   : -127.823
+
+Type  : Slow 1100mV 0C Model Setup 'CLOCK_50'
+Slack : -3.758
+TNS   : -502.729
+
+Type  : Slow 1100mV 0C Model Setup 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : -3.138
+TNS   : -189.823
+
+Type  : Slow 1100mV 0C Model Hold 'CLOCK_50'
+Slack : -0.125
+TNS   : -0.125
+
+Type  : Slow 1100mV 0C Model Hold 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : 0.523
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Recovery 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : -3.268
+TNS   : -220.998
+
+Type  : Slow 1100mV 0C Model Recovery 'CLOCK_50'
+Slack : -1.299
+TNS   : -202.893
+
+Type  : Slow 1100mV 0C Model Removal 'CLOCK_50'
+Slack : 0.846
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Removal 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : 1.452
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : -0.664
+TNS   : -49.541
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'CLOCK_50'
+Slack : -0.394
+TNS   : -139.211
+
+Type  : Fast 1100mV 85C Model Setup 'CLOCK_50'
+Slack : -1.823
+TNS   : -227.431
+
+Type  : Fast 1100mV 85C Model Setup 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : -1.455
+TNS   : -80.569
+
+Type  : Fast 1100mV 85C Model Hold 'CLOCK_50'
+Slack : 0.044
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : 0.170
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Recovery 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : -1.492
+TNS   : -94.686
+
+Type  : Fast 1100mV 85C Model Recovery 'CLOCK_50'
+Slack : -0.438
+TNS   : -57.844
+
+Type  : Fast 1100mV 85C Model Removal 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : 0.438
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Removal 'CLOCK_50'
+Slack : 0.505
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'CLOCK_50'
+Slack : -0.387
+TNS   : -19.560
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : -0.362
+TNS   : -4.644
+
+Type  : Fast 1100mV 0C Model Setup 'CLOCK_50'
+Slack : -1.591
+TNS   : -189.507
+
+Type  : Fast 1100mV 0C Model Setup 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : -1.417
+TNS   : -79.008
+
+Type  : Fast 1100mV 0C Model Hold 'CLOCK_50'
+Slack : -0.122
+TNS   : -0.161
+
+Type  : Fast 1100mV 0C Model Hold 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : 0.232
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Recovery 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : -1.456
+TNS   : -93.771
+
+Type  : Fast 1100mV 0C Model Recovery 'CLOCK_50'
+Slack : -0.336
+TNS   : -35.384
+
+Type  : Fast 1100mV 0C Model Removal 'CLOCK_50'
+Slack : 0.450
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Removal 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : 0.533
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'CLOCK_50'
+Slack : -0.384
+TNS   : -19.520
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'datapath:dtp|divClock:FSM_clock|clk1Hz'
+Slack : -0.281
+TNS   : -2.433
+
+------------------------------------------------------------
